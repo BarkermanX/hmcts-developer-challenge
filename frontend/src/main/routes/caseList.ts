@@ -35,4 +35,17 @@ export default function (app: Application): void {
     }
   });
 
+  app.get('/items/:id/delete', async (req, res) => {
+    try {
+      const id = req.params.id;
+
+      await axios.delete(`http://localhost:4000/delete-task/${id}`);
+
+      res.redirect('/load-items');
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      res.status(500).send('Unable to delete task');
+    }
+  });
+
 }

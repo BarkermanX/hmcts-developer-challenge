@@ -1,10 +1,11 @@
 package uk.gov.hmcts.reform.dev.services;
 
-import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.dev.repositories.TaskRepository;
-import uk.gov.hmcts.reform.dev.models.Task;
-
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import uk.gov.hmcts.reform.dev.models.Task;
+import uk.gov.hmcts.reform.dev.repositories.TaskRepository;
 
 @Service
 public class TaskService {
@@ -16,5 +17,9 @@ public class TaskService {
 
     public List<Task> getTaskList(int caseId) {
         return taskRepository.findByCaseId(caseId);
+    }
+
+    public void deleteTask(int taskId) {
+        taskRepository.delete(taskId);
     }
 }
