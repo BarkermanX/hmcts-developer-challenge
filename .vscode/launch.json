@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Debug HMCTS backend",
+      "request": "launch",
+      "mainClass": "uk.gov.hmcts.reform.dev.Application",
+      "cwd": "${workspaceFolder}/backend"
+    }
+  ]
+}

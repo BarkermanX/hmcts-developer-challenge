@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.njk": "nunjucks"
+  },
+  "[nunjucks]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "prettier.documentSelectors": ["**/*.njk"],
+  "java.compile.nullAnalysis.mode": "automatic"
+}

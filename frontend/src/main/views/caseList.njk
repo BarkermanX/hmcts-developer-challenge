@@ -1,0 +1,172 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% extends "template.njk" %}
+
+<!-- You may want to make further use of these components: https://design-system.service.gov.uk/components/
+but ultimately it is up to you -->
+
+{% block content %}
+  <h1 class="govuk-heading-xl">Welcome... view your case</h1>
+
+  <!-- The freedom is yours. You can design the solution however you like, however there is a starting point provided
+  to ensure you have both services running. You may want to make use of the Gov UK Components:
+  https://design-system.service.gov.uk/components/ to add tabs and so forth :) -->
+
+  {% if example.id %}
+
+    {{
+      govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: "ID"
+            },
+            value: {
+              text: example.id
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "change case id ?!"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Case Number"
+            },
+            value: {
+              text: example.caseNumber
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "change case number"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Title"
+            },
+            value: {
+              html: example.title
+            },
+            actions: {
+              items: [
+                {
+                  href: "#",
+                  text: "Change",
+                  visuallyHiddenText: "change case title"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Description"
+            },
+            value: {
+              html: example.description
+            },
+            actions: {
+              items: [
+                 {
+                   href: "#",
+                   text: "Delete",
+                   visuallyHiddenText: "Delete description"
+                 },
+                 {
+                   href: "#",
+                   text: "Change",
+                   visuallyHiddenText: "Change description"
+                 }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Status"
+            },
+            value: {
+              html: example.status
+            },
+            actions: {
+              items: [
+              ]
+            }
+          },
+          {
+            key: {
+             text: "Created Date"
+            },
+            value: {
+             html: example.createdDate
+            },
+            actions: {
+             items: [
+             ]
+            }
+          }
+        ]
+      })
+    }}
+
+    <div style="display: flex; gap: 15px; align-items: flex-start;">
+        <form action="/create-task" method="post">
+          <button type="submit" class="govuk-button">
+            Create New Task
+          </button>
+        </form>
+
+        <form action="/load-items" method="get">
+          <button type="submit" class="govuk-button">
+            Load All Tasks
+          </button>
+        </form>
+  </div>
+
+  {% endif %}
+  
+
+{% if itemData.length > 0 %}
+  {% set tableRows = [] %}
+  {% for item in itemData %}
+    {% set tableRows = tableRows.concat([[
+      { text: item.title },
+      {
+        text: item.dueDate,
+        attributes: { "data-sort-value": item.dueDateSort }
+      },
+      { text: item.status },
+      {
+        html: '<a href="/items/' + item.id + '/open" class="govuk-link">Open</a>'
+      },
+      {
+        html: '<a href="/items/' + item.id + '/delete" class="govuk-link">Delete</a>'
+      }
+    ]]) %}
+  {% endfor %}
+
+  {{ govukTable({
+    attributes: {
+      "data-module": "moj-sortable-table"
+    },
+    head: [
+      { text: "Title", attributes: { "aria-sort": "none" } },
+      { text: "Due Date", attributes: { "aria-sort": "none" } },
+      { text: "Status", attributes: { "aria-sort": "none" } },
+      { text: "Open" },
+      { text: "Delete" }
+    ],
+    rows: tableRows
+  }) }}
+{% endif %}
+
+{% endblock %}

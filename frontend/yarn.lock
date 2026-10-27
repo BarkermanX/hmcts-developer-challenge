@@ -1781,6 +1781,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ministryofjustice/frontend@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "@ministryofjustice/frontend@npm:12.0.0"
+  peerDependencies:
+    govuk-frontend: ^6.2.0
+    moment: ^2.30.1
+  checksum: 10/ae4cc8645aacd9b0003f988ceaae6a6e419dd3e766bb7b9dd77d54fd0290dc47fd0d4363b9ef609394f0ce75bed75a83f722e5297ae111948da13103f0f255ce
+  languageName: node
+  linkType: hard
+
 "@modelcontextprotocol/sdk@npm:^1.26.0":
   version: 1.29.0
   resolution: "@modelcontextprotocol/sdk@npm:1.29.0"
@@ -6218,6 +6228,7 @@ __metadata:
     "@codeceptjs/allure-legacy": "npm:^1.0.2"
     "@codeceptjs/configure": "npm:^1.0.6"
     "@eslint/js": "npm:^10.0.1"
+    "@ministryofjustice/frontend": "npm:^12.0.0"
     "@types/cookie-parser": "npm:^1.4.10"
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^30.0.0"
@@ -6247,11 +6258,13 @@ __metadata:
     jest-util: "npm:^30.4.1"
     lint-staged: "npm:^17.0.8"
     mini-css-extract-plugin: "npm:^2.10.2"
+    moment: "npm:^2.30.1"
     nodemon: "npm:^3.1.14"
     nunjucks: "npm:^3.2.4"
     playwright: "npm:^1.61.1"
     postcss: "npm:^8.5.16"
     prettier: "npm:^3.9.4"
+    prettier-plugin-jinja-template: "npm:^2.2.0"
     sass: "npm:^1.101.0"
     sass-loader: "npm:^17.0.0"
     serve-favicon: "npm:^2.5.1"
@@ -8217,6 +8230,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:^2.30.1":
+  version: 2.31.0
+  resolution: "moment@npm:2.31.0"
+  checksum: 10/fd3708d46f820c64fe1e064a60747533a55ee0aefd944490e18f08b2a83a5b6418bb4f42e1de47ef1f1a29f450c7ac41edd1fa6f940db30ded247c9717301b9f
+  languageName: node
+  linkType: hard
+
 "monocart-coverage-reports@npm:2.12.9":
   version: 2.12.9
   resolution: "monocart-coverage-reports@npm:2.12.9"
@@ -9003,6 +9023,15 @@ __metadata:
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
   checksum: 10/0b9d2c76801ca652a7f64892dd37b7e3fab149a37d2424920099bf894acccc62abb4424af2155ab36dea8744843060a2d8ddc983518d0b1e22265a22324b72ed
+  languageName: node
+  linkType: hard
+
+"prettier-plugin-jinja-template@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "prettier-plugin-jinja-template@npm:2.2.0"
+  peerDependencies:
+    prettier: ^3.0.0
+  checksum: 10/c8c5b83abf543bbb6cac4096bef924c9c6490218ae49f47d594ded40599fa8072ed6b1be5bbfb16ad03769fdbc32471f4d257c3dd1b5b0e472babaaf0948a20b
   languageName: node
   linkType: hard
 

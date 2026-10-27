@@ -31,6 +31,7 @@ const RAW_RUNTIME_STATE =
           ["@codeceptjs/allure-legacy", "npm:1.0.2"],\
           ["@codeceptjs/configure", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:1.0.6"],\
           ["@eslint/js", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:10.0.1"],\
+          ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:12.0.0"],\
           ["@types/cookie-parser", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:1.4.10"],\
           ["@types/express", "npm:5.0.6"],\
           ["@types/jest", "npm:30.0.0"],\
@@ -61,11 +62,13 @@ const RAW_RUNTIME_STATE =
           ["jest-util", "npm:30.4.1"],\
           ["lint-staged", "npm:17.0.8"],\
           ["mini-css-extract-plugin", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:2.10.2"],\
+          ["moment", "npm:2.31.0"],\
           ["nodemon", "npm:3.1.14"],\
           ["nunjucks", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:3.2.4"],\
           ["playwright", "npm:1.61.1"],\
           ["postcss", "npm:8.5.16"],\
           ["prettier", "npm:3.9.4"],\
+          ["prettier-plugin-jinja-template", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:2.2.0"],\
           ["sass", "npm:1.101.0"],\
           ["sass-loader", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:17.0.0"],\
           ["serve-favicon", "npm:2.5.1"],\
@@ -2820,6 +2823,32 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@keyv-serialize-npm-1.1.1-f3de0708ec-e3b2cb1377.zip/node_modules/@keyv/serialize/",\
         "packageDependencies": [\
           ["@keyv/serialize", "npm:1.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@ministryofjustice/frontend", [\
+      ["npm:12.0.0", {\
+        "packageLocation": "./.yarn/cache/@ministryofjustice-frontend-npm-12.0.0-4302b50ca9-ae4cc8645a.zip/node_modules/@ministryofjustice/frontend/",\
+        "packageDependencies": [\
+          ["@ministryofjustice/frontend", "npm:12.0.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:12.0.0", {\
+        "packageLocation": "./.yarn/__virtual__/@ministryofjustice-frontend-virtual-e09ef1f58b/0/cache/@ministryofjustice-frontend-npm-12.0.0-4302b50ca9-ae4cc8645a.zip/node_modules/@ministryofjustice/frontend/",\
+        "packageDependencies": [\
+          ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:12.0.0"],\
+          ["@types/govuk-frontend", null],\
+          ["@types/moment", null],\
+          ["govuk-frontend", "npm:6.3.0"],\
+          ["moment", "npm:2.31.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/govuk-frontend",\
+          "@types/moment",\
+          "govuk-frontend",\
+          "moment"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -8184,6 +8213,7 @@ const RAW_RUNTIME_STATE =
           ["@codeceptjs/allure-legacy", "npm:1.0.2"],\
           ["@codeceptjs/configure", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:1.0.6"],\
           ["@eslint/js", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:10.0.1"],\
+          ["@ministryofjustice/frontend", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:12.0.0"],\
           ["@types/cookie-parser", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:1.4.10"],\
           ["@types/express", "npm:5.0.6"],\
           ["@types/jest", "npm:30.0.0"],\
@@ -8214,11 +8244,13 @@ const RAW_RUNTIME_STATE =
           ["jest-util", "npm:30.4.1"],\
           ["lint-staged", "npm:17.0.8"],\
           ["mini-css-extract-plugin", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:2.10.2"],\
+          ["moment", "npm:2.31.0"],\
           ["nodemon", "npm:3.1.14"],\
           ["nunjucks", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:3.2.4"],\
           ["playwright", "npm:1.61.1"],\
           ["postcss", "npm:8.5.16"],\
           ["prettier", "npm:3.9.4"],\
+          ["prettier-plugin-jinja-template", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:2.2.0"],\
           ["sass", "npm:1.101.0"],\
           ["sass-loader", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:17.0.0"],\
           ["serve-favicon", "npm:2.5.1"],\
@@ -10494,6 +10526,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["moment", [\
+      ["npm:2.31.0", {\
+        "packageLocation": "./.yarn/cache/moment-npm-2.31.0-f6e03a269c-fd3708d46f.zip/node_modules/moment/",\
+        "packageDependencies": [\
+          ["moment", "npm:2.31.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["monocart-coverage-reports", [\
       ["npm:2.12.9", {\
         "packageLocation": "./.yarn/cache/monocart-coverage-reports-npm-2.12.9-d4ac94a2bd-483aaadf94.zip/node_modules/monocart-coverage-reports/",\
@@ -11431,6 +11472,28 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/unplugged/prettier-npm-3.9.4-4fe91639db/node_modules/prettier/",\
         "packageDependencies": [\
           ["prettier", "npm:3.9.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["prettier-plugin-jinja-template", [\
+      ["npm:2.2.0", {\
+        "packageLocation": "./.yarn/cache/prettier-plugin-jinja-template-npm-2.2.0-329ea7ef75-c8c5b83abf.zip/node_modules/prettier-plugin-jinja-template/",\
+        "packageDependencies": [\
+          ["prettier-plugin-jinja-template", "npm:2.2.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:2.2.0", {\
+        "packageLocation": "./.yarn/__virtual__/prettier-plugin-jinja-template-virtual-fe0b8ca2a0/0/cache/prettier-plugin-jinja-template-npm-2.2.0-329ea7ef75-c8c5b83abf.zip/node_modules/prettier-plugin-jinja-template/",\
+        "packageDependencies": [\
+          ["@types/prettier", null],\
+          ["prettier", "npm:3.9.4"],\
+          ["prettier-plugin-jinja-template", "virtual:3a02cceef93055271d0890b855d0c93a770c9c876ee9b808cf9e23d8d1b8581b5b6efcfb80a9768d650dfa22f93777eca81ae9ef4de2301b22a7619649eb692a#npm:2.2.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/prettier",\
+          "prettier"\
         ],\
         "linkType": "HARD"\
       }]\
