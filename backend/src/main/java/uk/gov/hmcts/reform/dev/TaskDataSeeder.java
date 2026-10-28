@@ -30,7 +30,7 @@ public class TaskDataSeeder implements CommandLineRunner {
         String[] documents = {"financial balance statements", "notarised identity proofs", "employment verification letters", "historical audit logs", "cross-border regulatory forms"};
         String[] teams = {"Legal Counsel", "Senior Risk Assessment team", "Data Privacy Officer", "Underwriting department", "Technical Support desk"};
 
-        String[] statuses = {"Not started", "In progress", "On hold"};
+        String[] statuses = {"Not started", "In progress", "On hold", "Complete"};
 
         for (int i = 1; i <= 100; i++) {
             // Round-robin selection for varied testing data

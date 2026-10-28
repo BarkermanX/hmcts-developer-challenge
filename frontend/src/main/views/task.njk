@@ -1,37 +1,136 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
 {% extends "template.njk" %}
 
 {% block content %}
   <h1 class="govuk-heading-xl">Task Details</h1>
 
     {% call govukInsetText() %}
-    Details for Task: {{ itemData.id }}
+    Details for Task: {{ itemData.id }} {{ itemData.title }}
     {% endcall %}
 
+    {{ govukInput({
+        label: {
+            text: "Task Id"
+        },
+        id: "txtTaskId",
+        name: "TaskId",
+        value: itemData.id,
+        disabled: true
+    }) }}
+
+    {{ govukInput({
+        label: {
+            text: "Title"
+        },
+        id: "txtTitle",
+        name: "Title",
+        value: itemData.title,
+        disabled: true
+    }) }}
+
+    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+    {{ govukTextarea({
+        name: "txtTaskDescription",
+        id: "taskDescription",
+        label: {
+            text: "Task Description"
+        },
+        hint: {
+            text: "This should explain what you need to do to complete this task"
+        },
+        value: itemData.description,
+        disabled: true
+    }) }}
+
+    {{ govukSelect({
+        id: "selectStatus",
+        name: "status",
+        label: {
+            text: "Task Status"
+        },
+        items: [
+            {
+                value: "0001",
+                text: "Not Started"
+            },
+            {
+                value: "0002",
+                text: "In Progress"
+            },
+            {
+                value: "0003",
+                text: "On hold"
+            },
+            {
+                value: "0004",
+                text: "Complete"
+            }         
+        ],
+        disabled: true
+    }) }}
+
+    {{ govukInput({
+        label: {
+            text: "Due Date"
+        },
+        id: "txtDD",
+        name: "DD",
+        value: (itemData.dueDate.slice(8, 10) ~ "/" ~ itemData.dueDate.slice(5, 7) ~ "/" ~ itemData.dueDate.slice(0, 4)) if itemData.dueDate else "",
+        disabled: true
+    }) }}
 
     {{ govukDateInput({
-    id: "passport-issued",
-    namePrefix: "passport-issued",
-    fieldset: {
-        legend: {
-        text: "When was your passport issued?",
-        isPageHeading: true,
-        classes: "govuk-fieldset__legend--l"
-        }
-    },
-    hint: {
-        text: "For example, 27 3 2007"
-    }
+        id: "dateTaskDueDate",
+        namePrefix: "task-due-date",
+        fieldset: {
+            legend: {
+            text: "Due Date"
+            }
+        },
+        hint: {
+            text: "This is when this task should be completed by"
+        },
+        items: [
+            {
+                name: "day",
+                classes: "govuk-input--width-2",
+                value: itemData.dueDate.slice(8, 10),
+                attributes: {
+                        "disabled": "disabled"
+                    }
+            },
+            {
+                name: "month",
+                classes: "govuk-input--width-2",
+                value: itemData.dueDate.slice(5, 7),
+                attributes: {
+                        "disabled": "disabled"
+                    }
+            },
+            {
+                name: "year",
+                classes: "govuk-input--width-4",
+                value: itemData.dueDate.slice(0, 4),
+                attributes: {
+                        "disabled": "disabled"
+                    }
+            }
+        ]
     }) }}
+    
 
 
 
 
     {{ govukBackLink({
     text: "Back",
-    href: "#"
+    href: "/home/' + {{ itemData.id }} "
     }) }}
 
 {% endblock %}
