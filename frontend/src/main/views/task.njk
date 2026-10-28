@@ -3,37 +3,62 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
-
 {% extends "template.njk" %}
 
 {% block content %}
-    <h1 class="govuk-heading-xl">Task Details</h1>
+  <h1 class="govuk-heading-xl">Task Details</h1>
 
-        {% call govukInsetText() %}
-        Details for Task: {{ itemData.id }} {{ itemData.title }}
-        <br>
+  {% call govukInsetText() %}
+    Details for Task: {{ itemData.id }} {{ itemData.title }}
+    <br />
+    {% if isEditingStatus %}
+      To discard your changes click the cancel button below
+    {% else %}
+      To edit the status for this task click the button below
+    {% endif %}
+    <br /><br />
+
+    <div style="display: flex; gap: 15px; align-items: flex-start;">
+        <div style="width: 160px;">
+            <form action="/create-task" method="post">
+                <button type="submit" class="govuk-button govuk-!-width-full">Create New</button>
+            </form>
+        </div>
+
+        <div style="width: 160px;">
+            <form action="/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}" method="post">
+                {% if isEditingStatus %}
+                    <button type="submit" class="govuk-button govuk-button--secondary govuk-!-width-full">Cancel Edit</button>
+                {% else %}
+                    <button type="submit" class="govuk-button govuk-!-width-full">Edit Status</button>
+                {% endif %}
+            </form>
+        </div>
+
         {% if isEditingStatus %}
-            To discard your changes click the cancel button below
-        {% else %}
-            To edit the status for this task click the button below
+            <div style="width: 160px;">
+                <form id="save-task-form" action="/task/save/{{ itemData.id }}" method="post">
+                    <button type="submit" class="govuk-button govuk-!-width-full">Save</button>
+                </form>
+            </div>
         {% endif %}
-        <br><br>
-        
-        <form action="/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}" method="post">
-        {% if isEditingStatus %}
-            <button type="submit" class="govuk-button govuk-button--secondary">
-            Cancel Edit
-            </button>
-        {% else %}
-            <button type="submit" class="govuk-button">
-            Edit Status
-            </button>
-        {% endif %}
-        </form>
-    {% endcall %}
 
+        <div style="width: 160px;">
+            <form action="/tasks/{{ itemData.id }}/delete" method="get">
+                <button type="submit" class="govuk-button govuk-button--warning govuk-!-width-full">Delete</button>
+            </form>
+        </div>
 
-    {{ govukInput({
+        <div style="width: 160px;">            
+            <form action="/home/{{ itemData.id }}" method="get">
+                <button type="submit" class="govuk-button govuk-!-width-full">Back</button>
+            </form>
+        </div>
+    </div>    
+  {% endcall %}
+
+  {{
+    govukInput({
         label: {
             text: "Task Id"
         },
@@ -41,9 +66,11 @@
         name: "TaskId",
         value: itemData.id,
         disabled: true
-    }) }}
+    })
+  }}
 
-    {{ govukInput({
+  {{
+    govukInput({
         label: {
             text: "Title"
         },
@@ -51,11 +78,49 @@
         name: "Title",
         value: itemData.title,
         disabled: true
-    }) }}
+    })
+  }}
+  {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
-    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+  {{
+    govukSelect({
+        id: "selectStatus",
+        name: "status",
+        errorMessage: { text: statusError } if statusError else null,
+        label: {
+            text: "Task Status"
+        },
+        items: [
+            {
+                value: "0001",
+                text: "Not Started",
+                selected: true if itemData.statusCode == "0001" else false
+            },
+            {
+                value: "0002",
+                text: "In Progress",
+                selected: true if itemData.statusCode == "0002" else false
+            },
+            {
+                value: "0003",
+                text: "On hold",
+                selected: true if itemData.statusCode == "0003" else false
+            },
+            {
+                value: "0004",
+                text: "Complete",
+                selected: true if itemData.statusCode == "0004" else false
+            }
+        ],
+        attributes: {
+            form: "save-task-form"
+        },
+        disabled: not isEditingStatus
+    })
+  }}
 
-    {{ govukTextarea({
+  {{
+    govukTextarea({
         name: "txtTaskDescription",
         id: "taskDescription",
         label: {
@@ -66,46 +131,11 @@
         },
         value: itemData.description,
         disabled: true
-    }) }}
+    })
+  }}
 
-    {{ govukSelect({
-        id: "selectStatus",
-        name: "status",
-        label: {
-            text: "Task Status"
-        },
-        items: [
-            {
-                value: "0001",
-                text: "Not Started"
-            },
-            {
-                value: "0002",
-                text: "In Progress"
-            },
-            {
-                value: "0003",
-                text: "On hold"
-            },
-            {
-                value: "0004",
-                text: "Complete"
-            }         
-        ],
-        disabled: not isEditingStatus
-    }) }}
-
-    {{ govukInput({
-        label: {
-            text: "Due Date"
-        },
-        id: "txtDD",
-        name: "DD",
-        value: (itemData.dueDate.slice(8, 10) ~ "/" ~ itemData.dueDate.slice(5, 7) ~ "/" ~ itemData.dueDate.slice(0, 4)) if itemData.dueDate else "",
-        disabled: true
-    }) }}
-
-    {{ govukDateInput({
+  {{
+    govukDateInput({
         id: "dateTaskDueDate",
         namePrefix: "task-due-date",
         fieldset: {
@@ -142,11 +172,13 @@
                     }
             }
         ]
-    }) }}
+    })
+  }}
 
-    {{ govukBackLink({
+  {{
+    govukBackLink({
         text: "Back",
         href: "/home/" ~ itemData.id
-    }) }}
-
+    })
+  }}
 {% endblock %}

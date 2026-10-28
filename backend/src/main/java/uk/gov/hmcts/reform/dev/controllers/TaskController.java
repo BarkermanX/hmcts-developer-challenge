@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import static org.springframework.http.ResponseEntity.ok;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,10 +45,19 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Validates and converts the path variable string into a 32-bit signed integer.
-     * Throws specific API exceptions when data requirements fail.
-     */
+    @PatchMapping(value = "patch-task/{id}/{newStatus}")
+    public ResponseEntity<Task> deleteTask(
+        @PathVariable("id") String id,
+        @PathVariable("newStatus") String newStatus
+    ) {
+        int parsedId = parseAndValidateId(id);
+        
+        Task objTask = taskService.updateTask(parsedId, newStatus);
+        
+        return ResponseEntity.ok(objTask);
+    }
+
+
     private int parseAndValidateId(String id) {
         if (id == null || id.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Task ID is required.");

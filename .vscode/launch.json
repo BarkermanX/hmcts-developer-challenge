@@ -7,6 +7,17 @@
       "request": "launch",
       "mainClass": "uk.gov.hmcts.reform.dev.Application",
       "cwd": "${workspaceFolder}/backend"
+    },
+    {
+      "type": "node",
+      "name": "Debug frontend",
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["start:dev"],
+      "cwd": "${workspaceFolder}/frontend",
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }

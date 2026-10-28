@@ -2,7 +2,7 @@
   "files.associations": {
     "*.njk": "njk"
   },
-  "[nunjucks]": {
+  "[njk]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },

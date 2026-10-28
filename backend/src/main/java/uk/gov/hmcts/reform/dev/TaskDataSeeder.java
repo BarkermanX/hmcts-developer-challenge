@@ -30,14 +30,17 @@ public class TaskDataSeeder implements CommandLineRunner {
         String[] documents = {"financial balance statements", "notarised identity proofs", "employment verification letters", "historical audit logs", "cross-border regulatory forms"};
         String[] teams = {"Legal Counsel", "Senior Risk Assessment team", "Data Privacy Officer", "Underwriting department", "Technical Support desk"};
 
-        String[] statuses = {"Not started", "In progress", "On hold", "Complete"};
+        String[] arrStatusText = {"Not started", "In progress", "On hold", "Complete"};
+        String[] statusCodes = {"0001", "0002", "0003", "0004"};
+
 
         for (int i = 1; i <= 100; i++) {
             // Round-robin selection for varied testing data
             String sys = systems[i % systems.length];
             String doc = documents[i % documents.length];
             String team = teams[i % teams.length];
-            String status = statuses[i % statuses.length];
+            String statusText = arrStatusText[i % arrStatusText.length];
+            String statusCode = statusCodes[i % statusCodes.length];
 
             // Format short title
             String title = String.format("Task #%03d: Process and verify %s", i, doc);
@@ -62,7 +65,8 @@ public class TaskDataSeeder implements CommandLineRunner {
                 caseId,     // Foreign key target
                 title,      // Task Subject/Header
                 description,// Multi-sentence technical narrative
-                status,     // Operational state
+                statusCode,
+                statusText,     // Operational state
                 dueDate     // Temporal constraint
             ));
         }

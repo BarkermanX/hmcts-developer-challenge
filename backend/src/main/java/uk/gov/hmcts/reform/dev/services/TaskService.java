@@ -26,4 +26,27 @@ public class TaskService {
     public void deleteTask(int taskId) {
         taskRepository.delete(taskId);
     }
+
+    public Task updateTask(int id, String newStatus) {
+        Task objTask = getTaskById(1, id);
+        
+        String strNewStatusDescription = switch (newStatus) {
+            case "0001" -> "Not started";
+            case "0002" -> "In progress";
+            case "0003" -> "On hold";
+            case "0004" -> "Complete";
+            default -> null; 
+        };
+
+        if (strNewStatusDescription == null) {
+            return objTask;
+        }
+
+        objTask.setStatusCode(newStatus);
+        objTask.setStatus(strNewStatusDescription);
+
+        taskRepository.update(id, objTask);
+
+        return objTask;
+    }
 }
