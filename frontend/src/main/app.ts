@@ -4,7 +4,7 @@ import { HTTPError } from './HttpError';
 import { Nunjucks } from './modules/nunjucks';
 
 import cookieParser from 'cookie-parser';
-import express from 'express';
+import express, {NextFunction} from 'express';
 import { glob } from 'glob';
 import favicon from 'serve-favicon';
 
@@ -15,6 +15,8 @@ const developmentMode = env === 'development';
 
 export const app = express();
 app.locals.ENV = env;
+
+
 
 new Nunjucks(developmentMode).enableFor(app);
 
@@ -36,7 +38,7 @@ glob
 setupDev(app, developmentMode);
 
 // error handler
-app.use((err: HTTPError, req: express.Request, res: express.Response) => {
+app.use((err: HTTPError, req: express.Request, res: express.Response, _next: NextFunction) => {
   console.log(err);
   // set locals, only providing error in development
   res.locals.message = err.message;

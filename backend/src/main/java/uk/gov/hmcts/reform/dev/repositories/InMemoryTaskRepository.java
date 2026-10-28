@@ -4,14 +4,15 @@
 
 package uk.gov.hmcts.reform.dev.repositories;
 
-import org.springframework.stereotype.Repository;
-import uk.gov.hmcts.reform.dev.models.Task;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.springframework.stereotype.Repository;
+
+import uk.gov.hmcts.reform.dev.models.Task;
 
 @Repository
 public class InMemoryTaskRepository implements TaskRepository {
@@ -31,6 +32,16 @@ public class InMemoryTaskRepository implements TaskRepository {
             .filter(task -> task.getCaseId() == caseId)
             .toList();
     }
+
+    @Override
+    public Task findByTaskId(int caseId, int taskId) {
+    return tasks.values().stream()
+        .filter(task -> 
+            task.getCaseId() == caseId
+            && task.getId() == taskId)
+        .findFirst()
+        .orElse(null);
+}
 
     @Override
     public Optional<Task> findById(int id) {

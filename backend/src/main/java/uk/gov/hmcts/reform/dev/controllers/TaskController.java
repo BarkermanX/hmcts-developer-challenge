@@ -24,8 +24,15 @@ public class TaskController {
     }
 
     @GetMapping(value = "/get-task-list", produces = "application/json")
-    public ResponseEntity<List<Task>> getTaskList(@RequestParam(name = "caseId", defaultValue = "1") int caseId) {
+    public ResponseEntity<List<Task>> getTaskList(@RequestParam(name = "caseId", defaultValue = "0") int caseId) {
         return ok(taskService.getTaskList(caseId));
+    }
+
+    @GetMapping(value = "/get-task-by-id", produces = "application/json")
+    public ResponseEntity<Task> getTaskById(
+        @RequestParam(name = "caseId", defaultValue = "1") int caseId,
+        @RequestParam(name = "taskId", defaultValue = "1") int taskId) {
+        return ok(taskService.getTaskById(caseId, taskId));
     }
 
     @DeleteMapping(value = "/delete-task/{id}")

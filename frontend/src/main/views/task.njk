@@ -1,0 +1,37 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% extends "template.njk" %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">Task Details</h1>
+
+    {% call govukInsetText() %}
+    Details for Task: {{ itemData.id }}
+    {% endcall %}
+
+
+    {{ govukDateInput({
+    id: "passport-issued",
+    namePrefix: "passport-issued",
+    fieldset: {
+        legend: {
+        text: "When was your passport issued?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--l"
+        }
+    },
+    hint: {
+        text: "For example, 27 3 2007"
+    }
+    }) }}
+
+
+
+
+    {{ govukBackLink({
+    text: "Back",
+    href: "#"
+    }) }}
+
+{% endblock %}

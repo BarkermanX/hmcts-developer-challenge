@@ -10,4 +10,10 @@ describe('Home page', () => {
       await request(app).get('/').expect(200);
     });
   });
+
+  describe('task page', () => {
+    test('should respond to the task redirect destination', async () => {
+      await request(app).get('/task').expect(200);
+    });
+  });
 });

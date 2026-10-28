@@ -19,6 +19,10 @@ public class TaskService {
         return taskRepository.findByCaseId(caseId);
     }
 
+    public Task getTaskById(int caseId, int taskId) {
+        return taskRepository.findByTaskId(caseId, taskId);
+    }
+
     public void deleteTask(int taskId) {
         taskRepository.delete(taskId);
     }
