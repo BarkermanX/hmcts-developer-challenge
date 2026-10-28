@@ -4,6 +4,9 @@ This will be the frontend for the brand new HMCTS case management system. As a p
 this in your hands. Please refer to the brief for the complete list of tasks! Complete as much as you can and be
 as creative as you want.
 
+This project uses GOV.UK controls and styling throughout the interface to match the GOV.UK design system and provide
+consistent, accessible government service patterns.
+
 To begin with, you should be able to run this by running:
 
 1. `yarn install`
