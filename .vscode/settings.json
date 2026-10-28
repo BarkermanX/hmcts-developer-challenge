@@ -1,6 +1,6 @@
 {
   "files.associations": {
-    "*.njk": "nunjucks"
+    "*.njk": "njk"
   },
   "[nunjucks]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
