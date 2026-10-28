@@ -69,7 +69,8 @@ export default function (app: Application): void {
       console.log(response.data);
 
       res.render('task', {
-        itemData: response.data
+        itemData: response.data,
+        isEditingStatus: false
       });
     } catch (error) {
       console.error('Error loading task:', error);

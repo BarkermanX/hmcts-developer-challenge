@@ -7,11 +7,31 @@
 {% extends "template.njk" %}
 
 {% block content %}
-  <h1 class="govuk-heading-xl">Task Details</h1>
+    <h1 class="govuk-heading-xl">Task Details</h1>
 
-    {% call govukInsetText() %}
-    Details for Task: {{ itemData.id }} {{ itemData.title }}
+        {% call govukInsetText() %}
+        Details for Task: {{ itemData.id }} {{ itemData.title }}
+        <br>
+        {% if isEditingStatus %}
+            To discard your changes click the cancel button below
+        {% else %}
+            To edit the status for this task click the button below
+        {% endif %}
+        <br><br>
+        
+        <form action="/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}" method="post">
+        {% if isEditingStatus %}
+            <button type="submit" class="govuk-button govuk-button--secondary">
+            Cancel Edit
+            </button>
+        {% else %}
+            <button type="submit" class="govuk-button">
+            Edit Status
+            </button>
+        {% endif %}
+        </form>
     {% endcall %}
+
 
     {{ govukInput({
         label: {
@@ -72,7 +92,7 @@
                 text: "Complete"
             }         
         ],
-        disabled: true
+        disabled: not isEditingStatus
     }) }}
 
     {{ govukInput({
@@ -123,14 +143,10 @@
             }
         ]
     }) }}
-    
-
-
-
 
     {{ govukBackLink({
-    text: "Back",
-    href: "/home/' + {{ itemData.id }} "
+        text: "Back",
+        href: "/home/" ~ itemData.id
     }) }}
 
 {% endblock %}
