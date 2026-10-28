@@ -8,172 +8,167 @@
 {% block content %}
   <h1 class="govuk-heading-xl">Task Details</h1>
 
-  {% call govukInsetText() %}
-    Details for Task: {{ itemData.id }} {{ itemData.title }}
-    <br />
-    {% if isEditingStatus %}
-      To discard your changes click the cancel button below
-    {% else %}
-      To edit the status for this task click the button below
-    {% endif %}
-    <br /><br />
+  <form id="save-task-form" action="/task/save/{{ itemData.id }}" method="post">
+    {% call govukInsetText() %}
+      Details for Task: {{ itemData.id }} {{ itemData.title }}
+      <br />
+      {% if isEditingStatus %}
+        To discard your changes click the cancel button below
+      {% else %}
+        To edit the status for this task click the button below
+      {% endif %}
+      <br /><br />
 
-    <div style="display: flex; gap: 15px; align-items: flex-start;">
-        <div style="width: 160px;">
-            <form action="/create-task" method="post">
-                <button type="submit" class="govuk-button govuk-!-width-full">Create New</button>
-            </form>
-        </div>
+      <div style="display: flex; gap: 15px; align-items: flex-start;">
+          <div style="width: 160px;">
+              <button type="submit" formaction="/create-task" class="govuk-button govuk-!-width-full">Create New</button>
+          </div>
 
-        <div style="width: 160px;">
-            <form action="/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}" method="post">
-                {% if isEditingStatus %}
-                    <button type="submit" class="govuk-button govuk-button--secondary govuk-!-width-full">Cancel Edit</button>
-                {% else %}
-                    <button type="submit" class="govuk-button govuk-!-width-full">Edit Status</button>
-                {% endif %}
-            </form>
-        </div>
+          <div style="width: 160px;">
+              {% if isEditingStatus %}
+                  <button type="submit" formaction="/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}" formmethod="post" class="govuk-button govuk-button--secondary govuk-!-width-full">Cancel Edit</button>
+              {% else %}
+                  <button type="submit" formaction="/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}" formmethod="post" class="govuk-button govuk-!-width-full">Edit Status</button>
+              {% endif %}
+          </div>
 
-        {% if isEditingStatus %}
-            <div style="width: 160px;">
-                <form id="save-task-form" action="/task/save/{{ itemData.id }}" method="post">
-                    <button type="submit" class="govuk-button govuk-!-width-full">Save</button>
-                </form>
-            </div>
-        {% endif %}
+          {% if isEditingStatus %}
+              <div style="width: 160px;">
+                  <button type="submit" class="govuk-button govuk-!-width-full">Save</button>
+              </div>
+          {% endif %}
 
-        <div style="width: 160px;">
-            <form action="/tasks/{{ itemData.id }}/delete" method="get">
-                <button type="submit" class="govuk-button govuk-button--warning govuk-!-width-full">Delete</button>
-            </form>
-        </div>
+          <div style="width: 160px;">
+              <button type="submit" formaction="/tasks/{{ itemData.id }}/delete" formmethod="get" class="govuk-button govuk-button--warning govuk-!-width-full">Delete</button>
+          </div>
 
-        <div style="width: 160px;">            
-            <form action="/home/{{ itemData.id }}" method="get">
-                <button type="submit" class="govuk-button govuk-!-width-full">Back</button>
-            </form>
-        </div>
-    </div>    
-  {% endcall %}
+          <div style="width: 160px;">
+              <a href="/home/{{ itemData.id }}" class="govuk-button govuk-!-width-full">Back</a>
+          </div>
+      </div>
+    {% endcall %}
 
-  {{
-    govukInput({
-        label: {
-            text: "Task Id"
-        },
-        id: "txtTaskId",
-        name: "TaskId",
-        value: itemData.id,
-        disabled: true
-    })
-  }}
+    {{
+      govukInput({
+          label: {
+              text: "Task Id"
+          },
+          id: "txtTaskId",
+          name: "TaskId",
+          value: itemData.id,
+          attributes: {
+              readonly: "readonly"
+          }
+      })
+    }}
 
-  {{
-    govukInput({
-        label: {
-            text: "Title"
-        },
-        id: "txtTitle",
-        name: "Title",
-        value: itemData.title,
-        disabled: true
-    })
-  }}
-  {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+    {{
+      govukInput({
+          label: {
+              text: "Title"
+          },
+          id: "txtTitle",
+          name: "Title",
+          value: itemData.title,
+          attributes: {
+              readonly: "readonly"
+          }
+      })
+    }}
+    {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
-  {{
-    govukSelect({
-        id: "selectStatus",
-        name: "status",
-        errorMessage: { text: statusError } if statusError else null,
-        label: {
-            text: "Task Status"
-        },
-        items: [
-            {
-                value: "0001",
-                text: "Not Started",
-                selected: true if itemData.statusCode == "0001" else false
-            },
-            {
-                value: "0002",
-                text: "In Progress",
-                selected: true if itemData.statusCode == "0002" else false
-            },
-            {
-                value: "0003",
-                text: "On hold",
-                selected: true if itemData.statusCode == "0003" else false
-            },
-            {
-                value: "0004",
-                text: "Complete",
-                selected: true if itemData.statusCode == "0004" else false
-            }
-        ],
-        attributes: {
-            form: "save-task-form"
-        },
-        disabled: not isEditingStatus
-    })
-  }}
+    {{
+      govukSelect({
+          id: "selectStatus",
+          name: "status",
+          errorMessage: { text: statusError } if statusError else null,
+          label: {
+              text: "Task Status"
+          },
+          items: [
+              {
+                  value: "0001",
+                  text: "Not Started",
+                  selected: true if itemData.statusCode == "0001" else false
+              },
+              {
+                  value: "0002",
+                  text: "In Progress",
+                  selected: true if itemData.statusCode == "0002" else false
+              },
+              {
+                  value: "0003",
+                  text: "On hold",
+                  selected: true if itemData.statusCode == "0003" else false
+              },
+              {
+                  value: "0004",
+                  text: "Complete",
+                  selected: true if itemData.statusCode == "0004" else false
+              }
+          ],
+          disabled: not isEditingStatus
+      })
+    }}
 
-  {{
-    govukTextarea({
-        name: "txtTaskDescription",
-        id: "taskDescription",
-        label: {
-            text: "Task Description"
-        },
-        hint: {
-            text: "This should explain what you need to do to complete this task"
-        },
-        value: itemData.description,
-        disabled: true
-    })
-  }}
+    {{
+      govukTextarea({
+          name: "txtTaskDescription",
+          id: "taskDescription",
+          label: {
+              text: "Task Description"
+          },
+          hint: {
+              text: "This should explain what you need to do to complete this task"
+          },
+          value: itemData.description,
+          attributes: {
+              readonly: "readonly"
+          }
+      })
+    }}
 
-  {{
-    govukDateInput({
-        id: "dateTaskDueDate",
-        namePrefix: "task-due-date",
-        fieldset: {
-            legend: {
-            text: "Due Date"
-            }
-        },
-        hint: {
-            text: "This is when this task should be completed by"
-        },
-        items: [
-            {
-                name: "day",
-                classes: "govuk-input--width-2",
-                value: itemData.dueDate.slice(8, 10),
-                attributes: {
-                        "disabled": "disabled"
-                    }
-            },
-            {
-                name: "month",
-                classes: "govuk-input--width-2",
-                value: itemData.dueDate.slice(5, 7),
-                attributes: {
-                        "disabled": "disabled"
-                    }
-            },
-            {
-                name: "year",
-                classes: "govuk-input--width-4",
-                value: itemData.dueDate.slice(0, 4),
-                attributes: {
-                        "disabled": "disabled"
-                    }
-            }
-        ]
-    })
-  }}
+    {{
+      govukDateInput({
+          id: "dateTaskDueDate",
+          namePrefix: "task-due-date",
+          fieldset: {
+              legend: {
+              text: "Due Date"
+              }
+          },
+          hint: {
+              text: "This is when this task should be completed by"
+          },
+          items: [
+              {
+                  name: "day",
+                  classes: "govuk-input--width-2",
+                  value: itemData.dueDate.slice(8, 10),
+                  attributes: {
+                          readonly: "readonly"
+                      }
+              },
+              {
+                  name: "month",
+                  classes: "govuk-input--width-2",
+                  value: itemData.dueDate.slice(5, 7),
+                  attributes: {
+                          readonly: "readonly"
+                      }
+              },
+              {
+                  name: "year",
+                  classes: "govuk-input--width-4",
+                  value: itemData.dueDate.slice(0, 4),
+                  attributes: {
+                          readonly: "readonly"
+                      }
+              }
+          ]
+      })
+    }}
+  </form>
 
   {{
     govukBackLink({
