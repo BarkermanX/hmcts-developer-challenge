@@ -3,19 +3,7 @@ import { Application } from 'express';
 
 export default function (app: Application): void {
 
-    app.get('/home', async (req, res) => {
-        try {
-            // An example of connecting to the backend (a starting point). Get data later
-            const responseCaseData = await axios.get('http://localhost:4000/get-example-case');
-
-            console.log(responseCaseData.data);
-            res.redirect('/load-items');
-        } catch (error) {
-            console.error('Error making request:', error);
-            res.render('home', {});
-        }
-    });
-
+    // Enable editing - when clicking the button rights/permission to edit should be checked on the server
     app.post('/items/:id/editStatus/:isEditingStatus', async (req, res) => {
         try {
             const id = req.params.id;
@@ -41,6 +29,9 @@ export default function (app: Application): void {
             }
     });
 
+    // Save a new task record.  Perform some validation on the client for speed
+    // Further validation should be performed on the server for anything sensitve (such as prices etc.) 
+    // Plus check on the server user has rights/permission to create new tasks.
     app.post('/task/save', async (req, res) => {
         try {
             const strTaskTitle = String(req.body.txtTitle ?? '').trim();
@@ -139,7 +130,11 @@ export default function (app: Application): void {
         }
     });
 
-    app.post('/task/save/:id', async (req, res) => {
+    // Update an existing record by id.
+    // Should ideally handle concurrent users editing the same record and notify the user if changes not saved
+    // If saving multiple records (audit history in this case) a transaction should be used if possible
+    // Also check the user has permission to alter this record on the server in case the id parameter has been altered  
+    app.post('/task/update/:id', async (req, res) => {
         try {
             const id = req.params.id;
             const strNewStatusCode = req.body.selectStatus;
@@ -187,17 +182,19 @@ export default function (app: Application): void {
         }
     });
 
+    // Delete the task by id
+    // On the server right/permission should be checked to make sure this record can be deleted
+    // Do not accept the pass id on good faith.  Valid this user can delete this task.
     app.get('/tasks/:id/delete', async (req, res) => {
         try {
-        const id = req.params.id;
+            const id = req.params.id;
 
-        await axios.delete(`http://localhost:4000/delete-task/${id}`);
+            await axios.delete(`http://localhost:4000/delete-task/${id}`);
 
-        res.redirect('/load-items');
+            res.redirect('/load-items');
         } catch (error) {
-        console.error('Error deleting task:', error);
-        res.status(500).send('Unable to delete task');
+            console.error('Error deleting task:', error);
+            res.status(500).send('Unable to delete task');
         }
     });
-
 }

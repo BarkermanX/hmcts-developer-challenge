@@ -50,7 +50,7 @@
     should be checked. Some users may just be able to view tasks and edit the status.
   {% endcall %}
 
-  <form id='save-task-form' action='/task/save/{{ itemData.id }}' method='post'>
+  <form id='save-task-form' action='/task/update/{{ itemData.id }}' method='post'>
     {% call govukInsetText() %}
       {% if not isCreateNew %}
         Details for Task:
