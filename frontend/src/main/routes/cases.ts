@@ -76,15 +76,4 @@ export default function (app: Application): void {
             res.status(500).send('Unable to load task');
         }
     });
-
-    app.get('/task/deleteSuccess', async (req, res) => {
-        try {
-            res.render('TaskDeletedSuccessfully');
-        } catch (error) {
-            console.error('Error loading task:', error);
-            res.status(500).send('Unable to load task');
-        }
-    });
-
-    
 }

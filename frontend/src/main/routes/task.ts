@@ -140,7 +140,7 @@ export default function (app: Application): void {
             });
 
             const objNewTask = response.data
-            res.redirect(`/items/${objNewTask.id}/open`);
+            res.redirect(`/task/${objNewTask.id}/open`);
 
         } catch (error) {
             console.error('Error making request:', error);
@@ -209,7 +209,8 @@ export default function (app: Application): void {
 
             await axios.delete(`http://localhost:4000/delete-task/${id}`);
 
-            res.redirect('/');
+            //res.redirect('/');
+            res.render('caseWrapper', { deleteMessage: 'Task '+ id.toString() + ' deleted successfully' });
         } catch (error) {
             console.error('Error deleting task:', error);
             res.status(500).send('Unable to delete task');
