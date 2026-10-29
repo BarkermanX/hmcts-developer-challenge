@@ -50,12 +50,12 @@
     should be checked. Some users may just be able to view tasks and edit the status.
   {% endcall %}
 
-  <form id='save-task-form' action='/task/update/{{ itemData.id }}' method='post'>
+  <form id='save-task-form' action='/task/save/{{ taskData.id }}' method='post'>
     {% call govukInsetText() %}
       {% if not isCreateNew %}
         Details for Task:
-        {{ itemData.id }}
-        {{ itemData.title }}
+        {{ taskData.id }}
+        {{ taskData.title }}
         <br />
       {% endif %}
       {% if isCreateNew %}
@@ -80,14 +80,14 @@
               <button
                 class='govuk-button govuk-button--secondary govuk-!-width-full'
                 type='submit'
-                formaction='/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}'
+                formaction='/task/{{ taskData.id }}/editStatus/{{ isEditingStatus }}'
                 formmethod='post'
               >Cancel Edit</button>
             {% else %}
               <button
                 class='govuk-button govuk-!-width-full'
                 type='submit'
-                formaction='/items/{{ itemData.id }}/editStatus/{{ isEditingStatus }}'
+                formaction='/task/{{ taskData.id }}/editStatus/{{ isEditingStatus }}'
                 formmethod='post'
               >Edit Status</button>
             {% endif %}
@@ -105,7 +105,7 @@
             <button
               class='govuk-button govuk-button--warning govuk-!-width-full'
               type='submit'
-              formaction='/tasks/{{ itemData.id }}/delete'
+              formaction='/task/{{ taskData.id }}/delete'
               formmethod='get'
             >Delete</button>
           </div>
@@ -121,7 +121,7 @@
         },
         id: "txtTaskId",
         name: "TaskId",
-        value: itemData.id,
+        value: taskData.id,
         attributes: {
           readonly: "readonly"
         }
@@ -137,7 +137,7 @@
       errorMessage: {
         text: validationErrors.title
       } if validationErrors.title else null,
-      value: itemData.title,
+      value: taskData.title,
       attributes: {
         readonly: "readonly"
       } if not isCreateNew else{
@@ -158,27 +158,27 @@
         {
           value: "",
           text: "",
-          selected: true if itemData.statusCode == "" else false
+          selected: true if taskData.statusCode == "" else false
         },
         {
           value: "0001",
           text: "Not Started",
-          selected: true if itemData.statusCode == "0001" else false
+          selected: true if taskData.statusCode == "0001" else false
         },
         {
           value: "0002",
           text: "In Progress",
-          selected: true if itemData.statusCode == "0002" else false
+          selected: true if taskData.statusCode == "0002" else false
         },
         {
           value: "0003",
           text: "On hold",
-          selected: true if itemData.statusCode == "0003" else false
+          selected: true if taskData.statusCode == "0003" else false
         },
         {
           value: "0004",
           text: "Complete",
-          selected: true if itemData.statusCode == "0004" else false
+          selected: true if taskData.statusCode == "0004" else false
         }
       ],
       disabled: not isEditingStatus
@@ -196,7 +196,7 @@
       hint: {
         text: "This should explain what you need to do to complete this task"
       },
-      value: itemData.description,
+      value: taskData.description,
       attributes: {
         readonly: "readonly"
       } if not isCreateNew else{
@@ -221,7 +221,7 @@
         {
           name: "day",
           classes: "govuk-input--width-2",
-          value: itemData.dueDateDay,
+          value: taskData.dueDateDay,
           attributes: {
             readonly: "readonly"
           }if not isCreateNew else{
@@ -230,7 +230,7 @@
         {
           name: "month",
           classes: "govuk-input--width-2",
-          value: itemData.dueDateMonth,
+          value: taskData.dueDateMonth,
           attributes: {
             readonly: "readonly"
           }if not isCreateNew else{
@@ -239,7 +239,7 @@
         {
           name: "year",
           classes: "govuk-input--width-4",
-          value: itemData.dueDateYear,
+          value: taskData.dueDateYear,
           attributes: {
             readonly: "readonly"
           }if not isCreateNew else{
@@ -251,6 +251,6 @@
 
   {{ govukBackLink({
     text: "Back",
-    href: "/home"
+    href: "/"
   }) }}
 {% endblock %}

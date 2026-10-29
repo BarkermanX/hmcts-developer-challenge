@@ -1,30 +1,30 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% if itemData.length > 0 %}
+{% if taskData.length > 0 %}
   {% set tableRows = [] %}
-  {% for item in itemData %}
+  {% for objTask in taskData %}
     {% set tableRows = tableRows.concat([
         [
           {
-            text: item.id
+            text: objTask.id
           },
           {
-            text: item.title
+            text: objTask.title
           },
           {
-            text: '',
+            text: objTask.localDate,
             attributes: {
-              "data-sort-value": item.dueDateSort
+              "data-sort-value": objTask.dueDateSort
             }
           },
           {
-            text: item.status
+            text: objTask.status
           },
           {
-            html: '<a href="/items/' + item.id + '/open" class="govuk-link">Open</a>'
+            html: '<a href="/task/' + objTask.id + '/open" class="govuk-link">Open</a>'
           },
           {
-            html: '<a href="/items/' + item.id + '/delete" class="govuk-link">Delete</a>'
+            html: '<a href="/task/' + objTask.id + '/delete" class="govuk-link">Delete</a>'
           }
         ]
       ])

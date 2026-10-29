@@ -9,7 +9,7 @@ export default function (app: Application): void {
             const responseCaseData = await axios.get('http://localhost:4000/get-example-case');
 
             console.log(responseCaseData.data);
-                res.render('caseWrapper', { example: responseCaseData.data, itemData: [] });
+                res.render('caseWrapper', { example: responseCaseData.data, taskData: [] });
         } catch (error) {
             console.error('Error making request:', error);
             res.render('caseWrapper', {});
@@ -27,8 +27,10 @@ export default function (app: Application): void {
         }
     });
 
+    
+
     // Load an item by Id
-    app.get('/items/:id/open', async (req, res) => {
+    app.get('/task/:id/open', async (req, res) => {
         try {
             const id = req.params.id;
 
@@ -42,7 +44,7 @@ export default function (app: Application): void {
             console.log(response.data);
 
             res.render('task', {
-                itemData: response.data,
+                taskData: response.data,
                 isEditingStatus: false
             });
         } catch (error) {
@@ -65,7 +67,7 @@ export default function (app: Application): void {
             };
 
             res.render('task', {
-                itemData: blankTask,
+                taskData: blankTask,
                 isEditingStatus: true,
                 isCreateNew: true
             });
@@ -74,4 +76,15 @@ export default function (app: Application): void {
             res.status(500).send('Unable to load task');
         }
     });
+
+    app.get('/task/deleteSuccess', async (req, res) => {
+        try {
+            res.render('TaskDeletedSuccessfully');
+        } catch (error) {
+            console.error('Error loading task:', error);
+            res.status(500).send('Unable to load task');
+        }
+    });
+
+    
 }

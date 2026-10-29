@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.dev.models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +24,12 @@ public class Task {
     private int dueDateDay;
     private int dueDateMonth;
     private int dueDateYear;
+
+    public String getLocalDate() {
+        if (dueDate == null) {
+            return "";
+        }
+
+        return dueDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 }

@@ -3,13 +3,31 @@ import { Application } from 'express';
 
 export default function (app: Application): void {
 
+    // Get All tasks for a case and return the data
+    // Case Id is hard coded here but would normally be accurate
+    // On the server check the user has the rights/permissions to view these tasks
+    // Both for this case and any sub categories (can't see completed tasks etc.)
+    app.get('/tasks/list', async (req, res) => {
+        try {
+            const response = await axios.get('http://localhost:4000/get-task-list', {
+                params: {
+                caseId: 1
+                }
+            });
+
+            res.render('cases/_taskList', { taskData: response.data });
+        } catch (error) {
+            console.error('Error loading tasks:', error);
+            res.status(502).send('Unable to load tasks');
+        }
+    });
+
     // Enable editing - when clicking the button rights/permission to edit should be checked on the server
-    app.post('/items/:id/editStatus/:isEditingStatus', async (req, res) => {
+    app.post('/task/:id/editStatus/:isEditingStatus', async (req, res) => {
         try {
             const id = req.params.id;
             const wasEditing = req.params.isEditingStatus === 'true';
 
-            // Retrieve the item again in case status was changed by someone else
             const response = await axios.get('http://localhost:4000/get-task-by-id', {
                 params: {
                 caseId: 1,
@@ -20,7 +38,7 @@ export default function (app: Application): void {
             console.log(response.data);
             
             res.render('task', {
-                itemData: response.data,
+                taskData: response.data,
                 isEditingStatus: !wasEditing
             });
         } catch (error) {
@@ -106,7 +124,7 @@ export default function (app: Application): void {
 
             if (objErrors.errorsFound) {
                 res.render('task', {
-                    itemData: objTask,
+                    taskData: objTask,
                     isEditingStatus: true,
                     isCreateNew: true,
                     validationErrors: objErrors
@@ -134,7 +152,7 @@ export default function (app: Application): void {
     // Should ideally handle concurrent users editing the same record and notify the user if changes not saved
     // If saving multiple records (audit history in this case) a transaction should be used if possible
     // Also check the user has permission to alter this record on the server in case the id parameter has been altered  
-    app.post('/task/update/:id', async (req, res) => {
+    app.post('/task/save/:id', async (req, res) => {
         try {
             const id = req.params.id;
             const strNewStatusCode = req.body.selectStatus;
@@ -157,7 +175,7 @@ export default function (app: Application): void {
                 };
 
                 res.render('task', {
-                    itemData: objTask.data,
+                    taskData: objTask.data,
                     isEditingStatus: true,
                     isCreateNew: true,
                     validationErrors: objErrors
@@ -172,7 +190,7 @@ export default function (app: Application): void {
             console.log(response.data);
 
             res.render('task', {
-                itemData: response.data,
+                taskData: response.data,
                 isEditingStatus: false
             });
 
@@ -185,13 +203,13 @@ export default function (app: Application): void {
     // Delete the task by id
     // On the server right/permission should be checked to make sure this record can be deleted
     // Do not accept the pass id on good faith.  Valid this user can delete this task.
-    app.get('/tasks/:id/delete', async (req, res) => {
+    app.get('/task/:id/delete', async (req, res) => {
         try {
             const id = req.params.id;
 
             await axios.delete(`http://localhost:4000/delete-task/${id}`);
 
-            res.redirect('/load-items');
+            res.redirect('/');
         } catch (error) {
             console.error('Error deleting task:', error);
             res.status(500).send('Unable to delete task');
