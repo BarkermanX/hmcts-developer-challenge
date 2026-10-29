@@ -58,6 +58,9 @@ public class TaskDataSeeder implements CommandLineRunner {
 
             // Stagger deadlines systematically over the coming weeks
             LocalDateTime dueDate = LocalDateTime.now().plusDays(2 + (i % 14)).plusHours(i % 24);
+            int dueDateDay = dueDate.getDayOfMonth();
+            int dueDateMonth = dueDate.getMonthValue();
+            int dueDateYear = dueDate.getYear();
 
             // Persist to database
             taskRepository.create(new Task(
@@ -67,7 +70,10 @@ public class TaskDataSeeder implements CommandLineRunner {
                 description,// Multi-sentence technical narrative
                 statusCode,
                 statusText,     // Operational state
-                dueDate     // Temporal constraint
+                dueDate,     // Temporal constraint
+                dueDateDay,
+                dueDateMonth,
+                dueDateYear
             ));
         }
     }

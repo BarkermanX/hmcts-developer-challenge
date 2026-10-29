@@ -86,7 +86,7 @@ export default function (app: Application): void {
         caseId: '1',
         title: '',
         description: '',
-        statusCode: '0001',
+        statusCode: '',
         status: '',
         dueDate: ''
       };

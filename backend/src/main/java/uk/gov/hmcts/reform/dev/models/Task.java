@@ -20,4 +20,7 @@ public class Task {
     private String statusCode;
     private String status;
     private LocalDateTime dueDate;
+    private int dueDateDay;
+    private int dueDateMonth;
+    private int dueDateYear;
 }

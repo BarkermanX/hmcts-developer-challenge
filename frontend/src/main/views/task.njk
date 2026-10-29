@@ -74,24 +74,29 @@
       </div>
     {% endcall %}
 
-    {{ govukInput({
-      label: {
-        text: "Task Id"
-      },
-      id: "txtTaskId",
-      name: "TaskId",
-      value: itemData.id,
-      attributes: {
-        readonly: "readonly"
-      }
-    }) }}
+    {% if not isCreateNew %}
+      {{ govukInput({
+        label: {
+          text: "Task Id"
+        },
+        id: "txtTaskId",
+        name: "TaskId",
+        value: itemData.id,
+        attributes: {
+          readonly: "readonly"
+        }
+      }) }}
+    {% endif %}
 
     {{ govukInput({
       label: {
         text: "Title"
       },
       id: "txtTitle",
-      name: "Title",
+      name: "txtTitle",
+      errorMessage: {
+        text: validationErrors.title
+      } if validationErrors.title else null,
       value: itemData.title,
       attributes: {
         readonly: "readonly"
@@ -102,14 +107,19 @@
 
     {{ govukSelect({
       id: "selectStatus",
-      name: "status",
+      name: "selectStatus",
       errorMessage: {
-        text: statusError
-      } if statusError else null,
+        text: validationErrors.status
+      } if validationErrors.status else null,
       label: {
         text: "Task Status"
       },
       items: [
+        {
+          value: "",
+          text: "",
+          selected: true if itemData.statusCode == "" else false
+        },
         {
           value: "0001",
           text: "Not Started",
@@ -131,14 +141,15 @@
           selected: true if itemData.statusCode == "0004" else false
         }
       ],
-      disabled: (
-        not isEditingStatus
-      ) or isCreateNew
+      disabled: not isEditingStatus
     }) }}
 
     {{ govukTextarea({
       name: "txtTaskDescription",
-      id: "taskDescription",
+      errorMessage: {
+        text: validationErrors.description
+      } if validationErrors.description else null,
+      id: "txtTaskDescription",
       label: {
         text: "Task Description"
       },
@@ -153,8 +164,11 @@
     }) }}
 
     {{ govukDateInput({
-      id: "dateTaskDueDate",
-      namePrefix: "task-due-date",
+      id: "dateDueDate",
+      namePrefix: "dateDueDate",
+      errorMessage: {
+        text: validationErrors.dueDate
+      } if validationErrors.dueDate else null,
       fieldset: {
         legend: {
           text: "Due Date"
@@ -167,10 +181,7 @@
         {
           name: "day",
           classes: "govuk-input--width-2",
-          value: itemData.dueDate.slice(
-            8,
-            10
-          ),
+          value: itemData.dueDateDay,
           attributes: {
             readonly: "readonly"
           }if not isCreateNew else{
@@ -179,10 +190,7 @@
         {
           name: "month",
           classes: "govuk-input--width-2",
-          value: itemData.dueDate.slice(
-            5,
-            7
-          ),
+          value: itemData.dueDateMonth,
           attributes: {
             readonly: "readonly"
           }if not isCreateNew else{
@@ -191,10 +199,7 @@
         {
           name: "year",
           classes: "govuk-input--width-4",
-          value: itemData.dueDate.slice(
-            0,
-            4
-          ),
+          value: itemData.dueDateYear,
           attributes: {
             readonly: "readonly"
           }if not isCreateNew else{
