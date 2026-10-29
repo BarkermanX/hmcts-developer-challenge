@@ -2,6 +2,18 @@
 
 A case and task management application with a Java/Spring Boot backend and a TypeScript/Express frontend. The frontend uses GOV.UK Frontend and Ministry of Justice Frontend components, including GOV.UK controls and sortable tables.
 
+## Screenshots
+
+Here are some screenshots illustrating the use of the Gov Uk Design System (https://design-system.service.gov.uk)
+
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
 ## Prerequisites
 
 - Java 21
