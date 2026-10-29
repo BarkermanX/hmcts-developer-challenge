@@ -98,5 +98,10 @@ module.exports = tseslint.config(
         },
       ],
     },
+  },
+  // Disable type-checked parsing explicitly for root config files
+  {
+    files: ['.prettierrc.cjs', 'eslint.config.js', 'eslint.config.cjs'],
+    extends: [tseslint.configs.disableTypeChecked],
   }
 );

@@ -3,7 +3,7 @@ import { Application } from 'express';
 
 export default function (app: Application): void {
 
-    app.get('/home/:id', async (req, res) => {
+    app.get('/home', async (req, res) => {
         try {
             // An example of connecting to the backend (a starting point). Get data later
             const responseCaseData = await axios.get('http://localhost:4000/get-example-case');

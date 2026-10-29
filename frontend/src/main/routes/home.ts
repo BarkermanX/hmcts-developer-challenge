@@ -78,4 +78,28 @@ export default function (app: Application): void {
     }
   });
 
+  app.post('/tasks/create', async (req, res) => {
+    try {
+
+      const blankTask = {
+        id: '',
+        caseId: '1',
+        title: '',
+        description: '',
+        statusCode: '0001',
+        status: '',
+        dueDate: ''
+      };
+
+      res.render('task', {
+        itemData: blankTask,
+        isEditingStatus: true,
+        isCreateNew: true
+      });
+    } catch (error) {
+      console.error('Error loading task:', error);
+      res.status(500).send('Unable to load task');
+    }
+  });
+
 }

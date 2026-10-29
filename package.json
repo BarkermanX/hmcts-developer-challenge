@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-nunjucks": "^0.2.3"
+  }
+}

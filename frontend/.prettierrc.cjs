@@ -4,12 +4,12 @@ module.exports = {
   singleQuote: true,
   trailingComma: 'es5',
   arrowParens: 'avoid',
-  plugins: [require.resolve('prettier-plugin-jinja-template')],
+  plugins: ['prettier-plugin-nunjucks'],
   overrides: [
     {
-      files: '**/*.njk',
+      files: ['*.njk', '**/*.njk', '*.nunjucks', '**/*.nunjucks'],
       options: {
-        parser: 'jinja-template',
+        parser: 'nunjucks',
       },
     },
   ],
