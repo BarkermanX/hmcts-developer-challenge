@@ -1,0 +1,9 @@
+<div style='display: flex; gap: 15px; align-items: flex-start;'>
+  <form action='/tasks/create' method='post'>
+    <button class='govuk-button' type='submit'>Create New Task</button>
+  </form>
+
+  <button id='load-tasks-button' class='govuk-button' type='button'>Load All Tasks</button>
+</div>
+
+<div id='task-list'>{% include "cases/_taskList.njk" %}</div>

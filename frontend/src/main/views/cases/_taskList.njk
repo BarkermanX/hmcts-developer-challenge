@@ -1,0 +1,72 @@
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% if itemData.length > 0 %}
+  {% set tableRows = [] %}
+  {% for item in itemData %}
+    {% set tableRows = tableRows.concat([
+        [
+          {
+            text: item.id
+          },
+          {
+            text: item.title
+          },
+          {
+            text: '',
+            attributes: {
+              "data-sort-value": item.dueDateSort
+            }
+          },
+          {
+            text: item.status
+          },
+          {
+            html: '<a href="/items/' + item.id + '/open" class="govuk-link">Open</a>'
+          },
+          {
+            html: '<a href="/items/' + item.id + '/delete" class="govuk-link">Delete</a>'
+          }
+        ]
+      ])
+    %}
+  {% endfor %}
+
+  {{ govukTable({
+    attributes: {
+      "data-module": "moj-sortable-table"
+    },
+    head: [
+      {
+        text: "ID",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Title",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Due Date",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Status",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Open"
+      },
+      {
+        text: "Delete"
+      }
+    ],
+    rows: tableRows
+  }) }}
+{% endif %}

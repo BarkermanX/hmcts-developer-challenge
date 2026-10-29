@@ -3,20 +3,65 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
 {% extends "template.njk" %}
 {% block content %}
-  <h1 class='govuk-heading-xl'>Task Details</h1>
+  {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "#"
+      },
+      {
+        text: "Case Details",
+        href: "/"
+      },
+      {
+        text: "Case Related Tasks",
+        href: "#"
+      }
+    ]
+  }) }}
+
+  {% if isCreateNew %}
+    <h1 class='govuk-heading-xl'>Create New Task</h1>
+  {% elif isEditingStatus %}
+    <h1 class='govuk-heading-xl'>Edit Task Details</h1>
+  {% else %}
+    <h1 class='govuk-heading-xl'>Task Details</h1>
+  {% endif %}
+
+  {% call govukDetails({
+      summaryText: "Development Note"
+    })
+  %}
+    Would check create rights on the server and also consider concurrent users and handling two users changing the same
+    record.
+    <br />
+    The Edit Status enables the status field and checks it is not blank
+    <br />
+    Delete record is a 'quick delete'. In a finished system this should check the users right to delete on the server
+    and also confirm deletion with the user via a 'are you sure' dialog.
+    <br />
+    Create new record checks fields are not blank and the due date is in the future. Authorisation to create new tasks
+    should be checked. Some users may just be able to view tasks and edit the status.
+  {% endcall %}
 
   <form id='save-task-form' action='/task/save/{{ itemData.id }}' method='post'>
     {% call govukInsetText() %}
-      Details for Task:
-      {{ itemData.id }}
-      {{ itemData.title }}
-      <br />
-      {% if isEditingStatus %}
-        To discard your changes click the cancel button below
-      {% elif isCreateNew %}
+      {% if not isCreateNew %}
+        Details for Task:
+        {{ itemData.id }}
+        {{ itemData.title }}
+        <br />
+      {% endif %}
+      {% if isCreateNew %}
         Please complete all fields and click the save button to create a new task for this case
+      {% elif isEditingStatus %}
+        To discard your changes click the cancel button below
       {% else %}
         To edit the status for this task click the button below
       {% endif %}
@@ -25,11 +70,9 @@
 
       <div style='display: flex; gap: 15px; align-items: flex-start;'>
 
-        {% if not isCreateNew %}
-          <div style='width: 160px;'>
-            <button class='govuk-button govuk-!-width-full' type='submit' formaction='/create-task'>Create New</button>
-          </div>
-        {% endif %}
+        <div style='width: 250px;'>
+          <a class='govuk-button govuk-!-width-full' href='/'>Load Parent Case</a>
+        </div>
 
         {% if not isCreateNew %}
           <div style='width: 160px;'>
@@ -68,9 +111,6 @@
           </div>
         {% endif %}
 
-        <div style='width: 160px;'>
-          <a class='govuk-button govuk-!-width-full' href='/home'>Back</a>
-        </div>
       </div>
     {% endcall %}
 

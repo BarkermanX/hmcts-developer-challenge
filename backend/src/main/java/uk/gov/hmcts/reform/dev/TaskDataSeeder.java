@@ -34,7 +34,7 @@ public class TaskDataSeeder implements CommandLineRunner {
         String[] statusCodes = {"0001", "0002", "0003", "0004"};
 
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 25; i++) {
             // Round-robin selection for varied testing data
             String sys = systems[i % systems.length];
             String doc = documents[i % documents.length];

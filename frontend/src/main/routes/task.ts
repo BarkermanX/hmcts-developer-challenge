@@ -43,13 +43,12 @@ export default function (app: Application): void {
 
     app.post('/task/save', async (req, res) => {
         try {
-            // Passed in details for the new task
-            const strTaskTitle = req.body.txtTitle;
-            const strTaskDescription = req.body.txtTaskDescription;
-            const strStatusCode = req.body.selectStatus;
-            const strDueDateDay =   req.body['dateDueDate-day'];
-            const strDueDateMonth = req.body['dateDueDate-month'];
-            const strDueDateYear =  req.body['dateDueDate-year'];            
+            const strTaskTitle = String(req.body.txtTitle ?? '').trim();
+            const strTaskDescription = String(req.body.txtTaskDescription ?? '').trim();
+            const strStatusCode = String(req.body.selectStatus ?? '');
+            const strDueDateDay = String(req.body['dateDueDate-day'] ?? '');
+            const strDueDateMonth = String(req.body['dateDueDate-month'] ?? '');
+            const strDueDateYear = String(req.body['dateDueDate-year'] ?? '');
 
             const objErrors = {
                 title: '',
@@ -57,85 +56,86 @@ export default function (app: Application): void {
                 status: '',
                 dueDate: '',
                 errorsFound: false
-            }
+            };
 
-            const objTask = {                
+            const objTask = {
+                id: 0,
+                caseId: 1,
                 title: strTaskTitle,
                 description: strTaskDescription,
-                status: strStatusCode,
-                dueDate: strDueDateDay + '/' + strDueDateMonth + '/' + strDueDateYear,
+                statusCode: strStatusCode,
+                status: '',
+                dueDate: '',
                 dueDateDay: strDueDateDay,
                 dueDateMonth: strDueDateMonth,
                 dueDateYear: strDueDateYear
+            };
+
+            if (!strTaskTitle) {
+                objErrors.errorsFound = true;
+                objErrors.title = 'Enter a title for this task';
             }
 
-            // validate mandatory fields etc.
-            if(strTaskTitle === '') {
+            if (!strTaskDescription) {
                 objErrors.errorsFound = true;
-                objErrors.title = 'Enter a title for this task';         
+                objErrors.description = 'Enter a description for this task';
             }
 
-            if(strTaskDescription === '') {
+            if (!['0001', '0002', '0003', '0004'].includes(strStatusCode)) {
                 objErrors.errorsFound = true;
-                objErrors.description = 'Enter a description for this task';         
-            }
-
-            if(strStatusCode === '') {
-                objErrors.errorsFound = true;
-                objErrors.status = 'Enter a status for this task';         
+                objErrors.status = 'Select a status for this task';
             }
 
             if (!strDueDateDay || !strDueDateMonth || !strDueDateYear) {
                 objErrors.errorsFound = true;
-                objErrors.dueDate = 'Enter a due date for this task completing the day, month and year fields';         
+                objErrors.dueDate = 'Enter a due date completing the day, month and year fields';
             } else {
-                // validate the date is in the future
                 const day = parseInt(strDueDateDay, 10);
                 const month = parseInt(strDueDateMonth, 10) - 1;
                 const year = parseInt(strDueDateYear, 10);
-
                 const dueDate = new Date(year, month, day);
-
-                // set the time to the end of today
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
-                // verify date is valid
-                if (dueDate.getFullYear() !== year || dueDate.getMonth() !== month || dueDate.getDate() !== day) {
+                if (!strDueDateDay.match(/^\d{1,2}$/)
+                    || !strDueDateMonth.match(/^\d{1,2}$/)
+                    || !strDueDateYear.match(/^\d{4}$/)
+                    || dueDate.getFullYear() !== year
+                    || dueDate.getMonth() !== month
+                    || dueDate.getDate() !== day) {
                     objErrors.errorsFound = true;
                     objErrors.dueDate = 'Enter a valid calendar date';
-                }
-                // flag if the error is in the past
-                else if (dueDate < today) {
+                } else if (dueDate < today) {
                     objErrors.errorsFound = true;
                     objErrors.dueDate = 'The due date must be in the future';
+                } else {
+                    objTask.dueDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}T00:00:00`;
                 }
             }
 
-            if(objErrors.errorsFound) {
+            if (objErrors.errorsFound) {
                 res.render('task', {
                     itemData: objTask,
                     isEditingStatus: true,
                     isCreateNew: true,
                     validationErrors: objErrors
-                });     
-                return;           
-            } 
+                });
+                return;
+            }
 
-            const targetUrl = `http://localhost:4000/save-task/${''}/${strStatusCode}`;
-
-            const response = await axios.patch(targetUrl);
-
-            console.log(response.data);
-
-            res.render('task', {
-                itemData: response.data,
-                isEditingStatus: false
+            const response = await axios.post('http://localhost:4000/save-task', {
+                ...objTask,
+                dueDateDay: Number(strDueDateDay),
+                dueDateMonth: Number(strDueDateMonth),
+                dueDateYear: Number(strDueDateYear)
             });
+
+            const objNewTask = response.data
+            res.redirect(`/items/${objNewTask.id}/open`);
 
         } catch (error) {
             console.error('Error making request:', error);
-            res.render('home', {});
+            res.status(502).send('Unable to save task');
         }
     });
 
@@ -159,7 +159,7 @@ export default function (app: Application): void {
                     status: 'Enter a status for this task',
                     dueDate: '',
                     errorsFound: false
-                }
+                };
 
                 res.render('task', {
                     itemData: objTask.data,

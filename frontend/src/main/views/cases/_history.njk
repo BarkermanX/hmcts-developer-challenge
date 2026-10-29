@@ -1,0 +1,108 @@
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{{ govukTable({
+  caption: "Case History",
+  captionClasses: "govuk-table__caption--m",
+  firstCellIsHeader: true,
+  head: [
+    {
+      text: "Date"
+    },
+    {
+      text: "User"
+    },
+    {
+      text: "Description"
+    }
+  ],
+  rows: [
+    [
+      {
+        text: "Oct 2026"
+      },
+      {
+        text: "User 2"
+      },
+      {
+        text: "Completed Task #7"
+      }
+    ],
+    [
+      {
+        text: "Sep 2026"
+      },
+      {
+        text: "User 1"
+      },
+      {
+        text: "Completed Task #6"
+      }
+    ],
+    [
+      {
+        text: "Aug 2026"
+      },
+      {
+        text: "User 3"
+      },
+      {
+        text: "Completed Task #5"
+      }
+    ],
+    [
+      {
+        text: "Jul 2026"
+      },
+      {
+        text: "User 2"
+      },
+      {
+        text: "Completed Task #4"
+      }
+    ],
+    [
+      {
+        text: "Jun 2026"
+      },
+      {
+        text: "User 1"
+      },
+      {
+        text: "Changed Task #3 status to In progress"
+      }
+    ],
+    [
+      {
+        text: "May 2026"
+      },
+      {
+        text: "User 3"
+      },
+      {
+        text: "Completed Task #2"
+      }
+    ],
+    [
+      {
+        text: "Apr 2026"
+      },
+      {
+        text: "User 1"
+      },
+      {
+        text: "Changed Case status to In progress"
+      }
+    ],
+    [
+      {
+        text: "Mar 2026"
+      },
+      {
+        text: "User 1"
+      },
+      {
+        text: "Case Created"
+      }
+    ]
+  ]
+}) }}

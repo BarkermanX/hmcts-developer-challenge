@@ -23,6 +23,23 @@ public class TaskService {
         return taskRepository.findByTaskId(caseId, taskId);
     }
 
+    public Task createTask(Task task) {
+        String statusDescription = switch (task.getStatusCode()) {
+            case "0001" -> "Not started";
+            case "0002" -> "In progress";
+            case "0003" -> "On hold";
+            case "0004" -> "Complete";
+            default -> null;
+        };
+
+        if (statusDescription == null) {
+            throw new IllegalArgumentException("Task status code is invalid.");
+        }
+
+        task.setStatus(statusDescription);
+        return taskRepository.create(task);
+    }
+
     public void deleteTask(int taskId) {
         taskRepository.delete(taskId);
     }

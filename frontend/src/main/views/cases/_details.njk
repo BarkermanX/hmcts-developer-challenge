@@ -1,0 +1,60 @@
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "ID"
+      },
+      value: {
+        text: example.id
+      }
+    },
+    {
+      key: {
+        text: "Case Number"
+      },
+      value: {
+        text: example.caseNumber
+      }
+    },
+    {
+      key: {
+        text: "Title"
+      },
+      value: {
+        html: example.title
+      }
+    },
+    {
+      key: {
+        text: "Description"
+      },
+      value: {
+        html: example.description
+      }
+    },
+    {
+      key: {
+        text: "Status"
+      },
+      value: {
+        html: example.status
+      },
+      actions: {
+        items: [
+        ]
+      }
+    },
+    {
+      key: {
+        text: "Created Date"
+      },
+      value: {
+        html: example.createdDate
+      },
+      actions: {
+        items: [
+        ]
+      }
+    }
+  ]
+}) }}

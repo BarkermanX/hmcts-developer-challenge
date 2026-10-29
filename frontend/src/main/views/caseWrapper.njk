@@ -1,0 +1,94 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+ {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% extends "template.njk" %}
+
+<!-- You may want to make further use of these components: https://design-system.service.gov.uk/components/
+but ultimately it is up to you -->
+
+<!-- The freedom is yours. You can design the solution however you like, however there is a starting point provided
+  to ensure you have both services running. You may want to make use of the Gov UK Components:
+  https://design-system.service.gov.uk/components/ to add tabs and so forth :) -->
+
+<!-- Thanks for the guidance :)  -->
+
+{% block content %}
+  <h1 class='govuk-heading-xl'>Case and Task Management System</h1>
+
+  {% set caseDetailsHtml %}
+    <h2 class='govuk-heading-l'>Case Details</h2>
+
+    <p>The details of the loaded case can be seen below</p>
+
+    {% call govukDetails({
+        summaryText: "Development Note"
+      })
+    %}
+      For this demo just loading the example case details and displaying it as a parent to the tasks we will manipulate
+    {% endcall %}
+
+    {% include "cases/_details.njk" %}
+  {% endset -%}
+
+  {% set caseTasksHtml %}
+    <h2 class='govuk-heading-l'>Linked Tasks</h2>
+
+    <p>Details of tasks linked to this case. Load all tasks or create a new one.</p>
+
+    {% call govukDetails({
+        summaryText: "Development Note"
+      })
+    %}
+      Ideally this would load pages with a debounce/disable on the load next page button. This would load the first page
+      when clicking on the tab then load more as requested. Would also apply authentication and authorisation checks
+      when loading the data. Should this user be able to load the ful list of task, or only a subset based on business
+      rules?
+    {% endcall %}
+
+    {% include "cases/_tasks.njk" %}
+  {% endset -%}
+
+  {% set AuditHtml %}
+    <h2 class='govuk-heading-l'>Case History</h2>
+
+    <p>The case history can be seen below</p>
+
+    {% call govukDetails({
+        summaryText: "Development Note"
+      })
+    %}
+      This is just some mocked up data for this demo. This would be lazily loaded when clicking the tab plus paged if
+      appropriate.
+    {% endcall %}
+
+    {% include "cases/_history.njk" %}
+  {% endset -%}
+
+  {{ govukTabs({
+    items: [
+      {
+        label: "Case Details",
+        id: "case-details",
+        panel: {
+          html: caseDetailsHtml
+        }
+      },
+      {
+        label: "Linked Tasks",
+        id: "linked-tasks",
+        panel: {
+          html: caseTasksHtml
+        }
+      },
+      {
+        label: "Case History",
+        id: "case-history",
+        panel: {
+          html: AuditHtml
+        }
+      }
+    ]
+  }) }}
+{% endblock %}
