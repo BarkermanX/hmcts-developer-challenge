@@ -2,7 +2,9 @@ package uk.gov.hmcts.reform.dev.services;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import uk.gov.hmcts.reform.dev.models.Task;
 import uk.gov.hmcts.reform.dev.repositories.TaskRepository;
@@ -24,6 +26,35 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
+        // Validate the Task Object
+        if (task.getCaseId() < 1) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "A valid case ID is required."
+            );
+        }
+
+        if (task.getTitle() == null || task.getTitle().isBlank()) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Task title is required."
+            );
+        }
+
+        if (task.getDescription() == null || task.getDescription().isBlank()) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Task description is required."
+            );
+        }
+
+        if (task.getDueDate() == null) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Task due date is required."
+            );
+        }
+
         String statusDescription = switch (task.getStatusCode()) {
             case "0001" -> "Not started";
             case "0002" -> "In progress";
@@ -37,11 +68,12 @@ public class TaskService {
         }
 
         task.setStatus(statusDescription);
+
         return taskRepository.create(task);
     }
 
-    public void deleteTask(int taskId) {
-        taskRepository.delete(taskId);
+    public boolean deleteTask(int taskId) {
+        return taskRepository.delete(taskId);
     }
 
     public Task updateTask(int id, String newStatus) {

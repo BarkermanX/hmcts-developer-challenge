@@ -35,19 +35,40 @@ public class TaskController {
     public ResponseEntity<Task> getTaskById(
         @RequestParam(name = "caseId", defaultValue = "1") int caseId,
         @RequestParam(name = "taskId", defaultValue = "1") int taskId) {
-        return ok(taskService.getTaskById(caseId, taskId));
+        
+        Task objTask = taskService.getTaskById(caseId, taskId);
+
+        if (objTask == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(objTask);
     }
 
     @PostMapping(value = "/save-task", produces = "application/json")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(task));
+
+        Task objTask = taskService.createTask(task);
+
+        if (objTask == null) {
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Task could not be created."
+        );
+    }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(objTask);
     }
 
     @DeleteMapping(value = "/delete-task/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable("id") String id) {
         int parsedId = parseAndValidateId(id);
         
-        taskService.deleteTask(parsedId);
+        boolean boolDeleted = taskService.deleteTask(parsedId);
+
+        if (!boolDeleted) {
+            return ResponseEntity.notFound().build();
+        }
         
         return ResponseEntity.noContent().build();
     }
@@ -60,6 +81,10 @@ public class TaskController {
         int parsedId = parseAndValidateId(id);
         
         Task objTask = taskService.updateTask(parsedId, newStatus);
+
+        if (objTask == null) {
+            return ResponseEntity.notFound().build();
+        }
         
         return ResponseEntity.ok(objTask);
     }
